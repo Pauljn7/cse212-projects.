@@ -1,33 +1,59 @@
+using System;
+using System.Collections.Generic;
+
 public static class Arrays
 {
-    /// <summary>
-    /// This function will produce an array of size 'length' starting with 'number' followed by multiples of 'number'.  For 
-    /// example, MultiplesOf(7, 5) will result in: {7, 14, 21, 28, 35}.  Assume that length is a positive
-    /// integer greater than 0.
-    /// </summary>
-    /// <returns>array of doubles that are the multiples of the supplied number</returns>
-    public static double[] MultiplesOf(double number, int length)
-    {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+    /*
+    PLAN: Multiples Of
 
-        return []; // replace this return statement with your own
+    1. Ask the user to enter a number.
+    2. Create a dynamic array (List<int>) to store the multiples.
+    3. Use a loop from 1 to 10.
+    4. Multiply the number by each value in the loop.
+    5. Store each result in the dynamic array.
+    6. Return the list of multiples.
+    */
+
+    public static List<int> MultiplesOf(int number)
+    {
+        List<int> results = new List<int>();
+
+        for (int i = 1; i <= 10; i++)
+        {
+            int value = number * i;
+            results.Add(value);
+        }
+
+        return results;
     }
 
-    /// <summary>
-    /// Rotate the 'data' to the right by the 'amount'.  For example, if the data is 
-    /// List<int>{1, 2, 3, 4, 5, 6, 7, 8, 9} and an amount is 3 then the list after the function runs should be 
-    /// List<int>{7, 8, 9, 1, 2, 3, 4, 5, 6}.  The value of amount will be in the range of 1 to data.Count, inclusive.
-    ///
-    /// Because a list is dynamic, this function will modify the existing data list rather than returning a new list.
-    /// </summary>
-    public static void RotateListRight(List<int> data, int amount)
+
+    /*
+    PLAN: Rotate Right
+
+    1. Receive a dynamic array (List<int>).
+    2. Save the last value of the list.
+    3. Move every element one position to the right.
+    4. Place the saved last value into the first position.
+    5. Return the updated list.
+    */
+
+    public static List<int> RotateRight(List<int> numbers)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        if (numbers.Count == 0)
+        {
+            return numbers;
+        }
+
+        int last = numbers[numbers.Count - 1];
+
+        for (int i = numbers.Count - 1; i > 0; i--)
+        {
+            numbers[i] = numbers[i - 1];
+        }
+
+        numbers[0] = last;
+
+        return numbers;
     }
 }
