@@ -6,22 +6,21 @@ public static class Arrays
     /*
     PLAN: Multiples Of
 
-    1. Ask the user to enter a number.
-    2. Create a dynamic array (List<int>) to store the multiples.
-    3. Use a loop from 1 to 10.
-    4. Multiply the number by each value in the loop.
-    5. Store each result in the dynamic array.
+    1. Receive two numbers: the base number and how many multiples to generate.
+    2. Create a dynamic array (List<int>) to store the results.
+    3. Use a loop starting from 1 up to the count value.
+    4. Multiply the base number by the loop counter.
+    5. Add each result into the list.
     6. Return the list of multiples.
     */
 
-    public static List<int> MultiplesOf(int number)
+    public static List<int> MultiplesOf(int number, int count)
     {
         List<int> results = new List<int>();
 
-        for (int i = 1; i <= 10; i++)
+        for (int i = 1; i <= count; i++)
         {
-            int value = number * i;
-            results.Add(value);
+            results.Add(number * i);
         }
 
         return results;
@@ -31,18 +30,19 @@ public static class Arrays
     /*
     PLAN: Rotate Right
 
-    1. Receive a dynamic array (List<int>).
-    2. Save the last value of the list.
-    3. Move every element one position to the right.
-    4. Place the saved last value into the first position.
-    5. Return the updated list.
+    1. Receive a list of integers.
+    2. If the list is empty, do nothing.
+    3. Save the last value in a temporary variable.
+    4. Move every element one position to the right.
+    5. Place the saved last value into the first position.
+    6. The list is now rotated to the right.
     */
 
-    public static List<int> RotateRight(List<int> numbers)
+    public static void RotateListRight(List<int> numbers)
     {
         if (numbers.Count == 0)
         {
-            return numbers;
+            return;
         }
 
         int last = numbers[numbers.Count - 1];
@@ -53,7 +53,5 @@ public static class Arrays
         }
 
         numbers[0] = last;
-
-        return numbers;
     }
 }
