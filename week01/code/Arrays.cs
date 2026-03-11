@@ -6,52 +6,57 @@ public static class Arrays
     /*
     PLAN: Multiples Of
 
-    1. Receive two numbers: the base number and how many multiples to generate.
-    2. Create a dynamic array (List<int>) to store the results.
-    3. Use a loop starting from 1 up to the count value.
-    4. Multiply the base number by the loop counter.
-    5. Add each result into the list.
-    6. Return the list of multiples.
+    1. Receive a number and a count.
+    2. Create an array of doubles with the size of count.
+    3. Use a loop from 1 up to the count value.
+    4. Multiply the number by the loop counter.
+    5. Store each result in the array.
+    6. Return the array of multiples.
     */
 
-    public static List<int> MultiplesOf(int number, int count)
+    public static double[] MultiplesOf(double number, int count)
     {
-        List<int> results = new List<int>();
+        double[] results = new double[count];
 
-        for (int i = 1; i <= count; i++)
+        for (int i = 0; i < count; i++)
         {
-            results.Add(number * i);
+            results[i] = number * (i + 1);
         }
 
         return results;
     }
 
-
     /*
     PLAN: Rotate Right
 
-    1. Receive a list of integers.
-    2. If the list is empty, do nothing.
-    3. Save the last value in a temporary variable.
-    4. Move every element one position to the right.
-    5. Place the saved last value into the first position.
-    6. The list is now rotated to the right.
+    1. Receive a list of integers and the number of rotations.
+    2. Repeat the rotation process the specified number of times.
+    3. Save the last element in the list.
+    4. Shift every element one position to the right.
+    5. Place the saved last element at the beginning of the list.
     */
 
-    public static void RotateListRight(List<int> numbers)
+    public static void RotateListRight(List<int> numbers, int rotations)
     {
-        if (numbers.Count == 0)
+        int count = numbers.Count;
+
+        if (count == 0)
         {
             return;
         }
 
-        int last = numbers[numbers.Count - 1];
+        rotations = rotations % count;
 
-        for (int i = numbers.Count - 1; i > 0; i--)
+        for (int r = 0; r < rotations; r++)
         {
-            numbers[i] = numbers[i - 1];
-        }
+            int last = numbers[count - 1];
 
-        numbers[0] = last;
+            for (int i = count - 1; i > 0; i--)
+            {
+                numbers[i] = numbers[i - 1];
+            }
+
+            numbers[0] = last;
+        }
     }
 }
