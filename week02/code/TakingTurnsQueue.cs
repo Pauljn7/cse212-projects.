@@ -10,7 +10,6 @@
 public class TakingTurnsQueue
 {
     private readonly PersonQueue _people = new();
-
     public int Length => _people.Length;
 
     /// <summary>
@@ -37,17 +36,23 @@ public class TakingTurnsQueue
         {
             throw new InvalidOperationException("No one in the queue.");
         }
-        else
-        {
-            Person person = _people.Dequeue();
-            if (person.Turns > 1)
-            {
-                person.Turns -= 1;
-                _people.Enqueue(person);
-            }
 
-            return person;
+        Person person = _people.Dequeue();
+
+        if (person.Turns <= 0)
+        {
+            // person has infinite turns, put them back
+            _people.Enqueue(person);
         }
+        else if (person.Turns > 1)
+        {
+            // person still has turns left, reduce and put back
+            person.Turns -= 1;
+            _people.Enqueue(person);
+        }
+        // if turns == 1, this was their last turn so don't put back
+
+        return person;
     }
 
     public override string ToString()
