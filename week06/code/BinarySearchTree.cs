@@ -11,12 +11,12 @@ public class BinarySearchTree : IEnumerable<int>
     {
         // Create new node
         Node newNode = new(value);
-        // If the list is empty, then point both head and tail to the new node.
+        // If the tree is empty, set the root to the new node.
         if (_root is null)
         {
             _root = newNode;
         }
-        // If the list is not empty, then only head will be affected.
+        // If the tree is not empty, use Node.Insert to find the right spot.
         else
         {
             _root.Insert(value);
@@ -43,7 +43,7 @@ public class BinarySearchTree : IEnumerable<int>
     }
 
     /// <summary>
-    /// Iterate forward through the BST
+    /// Iterate forward through the BST (smallest to largest)
     /// </summary>
     public IEnumerator<int> GetEnumerator()
     {
@@ -66,9 +66,9 @@ public class BinarySearchTree : IEnumerable<int>
     }
 
     /// <summary>
-    /// Iterate backward through the BST.
+    /// Iterate backward through the BST (largest to smallest).
     /// </summary>
-    public IEnumerable Reverse()
+    public IEnumerable<int> Reverse()
     {
         var numbers = new List<int>();
         TraverseBackward(_root, numbers);
@@ -78,9 +78,25 @@ public class BinarySearchTree : IEnumerable<int>
         }
     }
 
+    /// <summary>
+    /// #############
+    /// # Problem 3 #
+    /// #############
+    /// Exact mirror of TraverseForward.
+    /// Go RIGHT first (largest), add the node, then go LEFT (smaller).
+    /// This gives us largest to smallest order.
+    /// </summary>
     private void TraverseBackward(Node? node, List<int> values)
     {
-        // TODO Problem 3
+        if (node is not null)
+        {
+            // Go right first to get the largest values
+            TraverseBackward(node.Right, values);
+            // Add current node
+            values.Add(node.Data);
+            // Then go left for the smaller values
+            TraverseBackward(node.Left, values);
+        }
     }
 
     /// <summary>
@@ -99,8 +115,51 @@ public class BinarySearchTree : IEnumerable<int>
     }
 }
 
-public static class IntArrayExtensionMethods {
-    public static string AsString(this IEnumerable array) {
+/// <summary>
+/// Extension method to help print IEnumerable as a string
+/// </summary>
+public static class IntArrayExtensionMethods
+{
+    public static string AsString(this IEnumerable array)
+    {
         return "<IEnumerable>{" + string.Join(", ", array.Cast<int>()) + "}";
+    }
+}
+
+/// <summary>
+/// #############
+/// # Problem 5 #
+/// #############
+/// Builds a balanced BST from a sorted array by always inserting
+/// the MIDDLE value first, then recursing on left half and right half.
+/// This prevents the tree from becoming a linked list shape.
+/// Uses 'first' and 'last' indexes — NO list slicing.
+/// </summary>
+public static class TreeBuilder
+{
+    public static void InsertMiddle(BinarySearchTree tree, int[] sortedNumbers, int first, int last)
+    {
+        // Base case: no more values to insert in this range
+        if (first > last)
+            return;
+
+        // Find the middle index
+        int mid = (first + last) / 2;
+
+        // Insert the middle value first — this keeps the tree balanced
+        tree.Insert(sortedNumbers[mid]);
+
+        // Recurse on the left half (values before mid)
+        InsertMiddle(tree, sortedNumbers, first, mid - 1);
+
+        // Recurse on the right half (values after mid)
+        InsertMiddle(tree, sortedNumbers, mid + 1, last);
+    }
+
+    public static BinarySearchTree CreateTreeFromSortedList(int[] sortedNumbers)
+    {
+        var bst = new BinarySearchTree();
+        InsertMiddle(bst, sortedNumbers, 0, sortedNumbers.Length - 1);
+        return bst;
     }
 }
